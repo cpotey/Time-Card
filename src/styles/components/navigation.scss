@@ -1,0 +1,25 @@
+.nav {
+  .nav-container {
+    padding: 0 1.5rem;
+    margin: auto;
+    justify-content: space-between;
+    -webkit-transition: height 0.3s ease;
+    transition: height 0.3s ease;
+    display: flex;
+    align-items: center;
+
+    .links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex: unset;
+      height: 100%;
+      align-items: center;
+      margin: 0;
+
+      img {
+        max-width:30px;
+      }
+    }
+  }
+}
