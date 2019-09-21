@@ -6,14 +6,14 @@ export default class Footer extends Component {
       <footer className="footer container">
         <div>
           <a
-            href="https://ko-fi.com/taniarascia"
+            href="https://ko-fi.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Ko-Fi
           </a>
           <a
-            href="https://patreon.com/taniarascia"
+            href="https://patreon.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -22,7 +22,7 @@ export default class Footer extends Component {
         </div>
         <div>
           <a
-            href="https://github.com/taniarascia"
+            href="https://github.com/"
             title="Open-source on GitHub"
           >
             {/* <img
