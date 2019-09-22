@@ -3,6 +3,7 @@
   // justify-content: space-evenly;
   margin: 0 0 1.5rem;
   align-items: center;
+  position: relative;
 
   .day-name {
     min-width: 145px;
@@ -13,22 +14,30 @@
   }
 
   input {
-    padding: 10px 10px;
+    padding: 8px 10px;
     border: none;
     margin-top: 0;
     margin-bottom: 0;
-    border-radius:1px;
+    font-size: 15px;
+    border-radius: 1px;
+    height: 100%;
+    max-width: 150px;
   }
 
   .day-total {
-    margin-left:20px;
+    margin-left: 20px;
     font-size: 1.4em;
+    p {
+      margin: 0;
+    }
   }
 }
 
-a.reset-button {
-  cursor:pointer;
-}
-#weekly-total {
-
+.reset-button {
+  cursor: pointer;
+  position: absolute;
+  right: -45px;
+  background: none;
+  border: none !important;
+  padding: 0;
 }

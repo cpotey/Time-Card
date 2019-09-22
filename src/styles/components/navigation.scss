@@ -1,4 +1,7 @@
 .nav {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+
   .nav-container {
     padding: 0 1.5rem;
     margin: auto;
@@ -7,6 +10,13 @@
     transition: height 0.3s ease;
     display: flex;
     align-items: center;
+
+    .brand {
+      h1 {
+        font-size:2rem;
+        margin:0;
+      }
+    }
 
     .links {
       display: flex;
@@ -18,7 +28,36 @@
       margin: 0;
 
       img {
-        max-width:30px;
+        max-width: 30px;
+      }
+      .decimal-switcher {
+        cursor: pointer;
+        background: none;
+        border: none !important;
+        padding: 0;
+        color: #fff;
+        font-size: 15px;
+        transition: 0.3s ease;
+
+        span {
+          margin-right: 8px;
+
+          &.switch {
+            opacity: 0.8;
+            transition: 0.3s ease;
+          }
+        }
+
+        &:hover {
+          // background-color: rgba(255, 255, 255, 0.18);
+          // color: #fff;
+
+          span {
+            &.switch {
+              opacity: 1;
+            }
+          }
+        }
       }
     }
   }

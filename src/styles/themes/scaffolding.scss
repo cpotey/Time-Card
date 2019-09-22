@@ -5,11 +5,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  color: white;
+  padding-bottom: 2em;
+}
+html {
   background: #4568dc;
   background: -webkit-linear-gradient(to left, #4568dc, #b06ab3);
   background: linear-gradient(to left, #4568dc, #b06ab3);
-  color: white;
-  padding-bottom: 2em;
 }
 
 .container {

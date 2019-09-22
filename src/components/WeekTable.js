@@ -8,7 +8,8 @@ import moment from 'moment'
 
 import reset from '../images/reset.svg'
 
-import Day from './Day'
+import DayTotal from './DayTotal'
+import WeeklyTotal from './WeeklyTotal'
 
 export default class WeekTable extends Component {
   static contextType = ThemeContext
@@ -118,14 +119,11 @@ export default class WeekTable extends Component {
     let weekdays = [...this.state.weekdays] // create the copy of state array
 
     if (value !== null) {
-      // alert('yes val')
-      // console.log(value)
       weekdays[index][dayValue] = value
       this.setState({ weekdays })
 
       weekdays[index][name] = twentyFourHoursFormat // set the value for either DayStart/DayBreak/DayEnd
       this.setState({ weekdays })
-      console.log(this.state.weekdays)
 
       // if dayStart & dayEnd exists, or if dayStart, dayEnd & dayBreak exists
       if (
@@ -162,36 +160,6 @@ export default class WeekTable extends Component {
       this.setState({ weekdays })
       this.updateTotalHoursState()
     }
-
-    // // if dayStart & dayEnd exists, or if dayStart, dayEnd & dayBreak exists
-    // if (
-    //   (weekdays[index].dayStart && weekdays[index].dayEnd) ||
-    //   (weekdays[index].dayStart &&
-    //     weekdays[index].dayEnd &&
-    //     weekdays[index].dayBreak)
-    // ) {
-    //   //  do the calculateTotalDayHours function
-    //   let totalDayHours = this.calculateTotalDayHours(
-    //     weekdays[index].dayStart,
-    //     weekdays[index].dayEnd,
-    //     weekdays[index].dayBreak
-    //   )
-
-    //   const minutesIntoHours = moment
-    //     .duration(totalDayHours, 'minutes')
-    //     .asHours()
-
-    //   const dayHours = moment.duration(totalDayHours, 'minutes').hours()
-    //   const dayMinutes = moment.duration(totalDayHours, 'minutes').minutes()
-
-    //   // and add the day's total hours to the state
-    //   weekdays[index].hoursInMinutes = totalDayHours //new value
-    //   weekdays[index].hoursDecimal = minutesIntoHours
-    //   weekdays[index].hoursTime = `${dayHours}h ${dayMinutes}m`
-    //   this.setState({ weekdays })
-
-    //   this.updateTotalHoursState()
-    // }
   }
 
   // Return the days total
@@ -236,6 +204,7 @@ export default class WeekTable extends Component {
     // Reduce arrays to a single integer
     let reduceTimeHours = hoursTimeArray.reduce(reducer)
     let reduceDecimalHours = hoursDecimalArray.reduce(reducer)
+    let roundedDecimalHours = Math.round(reduceDecimalHours * 100) / 100
 
     // Turn total minutes into hours and minutes
     let totalHours = Math.floor(reduceTimeHours / 60)
@@ -243,8 +212,10 @@ export default class WeekTable extends Component {
     const reduceTotalTime = `${totalHours}h ${totalMinutes}m`
 
     // update the state within ThemeContext
-    this.context.updateTotalInDecimal(reduceDecimalHours)
+    this.context.updateTotalInDecimal(roundedDecimalHours)
     this.context.updateTotalInTime(reduceTotalTime)
+
+    console.log(this.context)
   }
 
   clearDay = index => {
@@ -265,8 +236,6 @@ export default class WeekTable extends Component {
   }
 
   render() {
-    const theme = this.context
-
     // Default open values for TimePicker
     const startTime = moment()
       .hour(9)
@@ -278,18 +247,13 @@ export default class WeekTable extends Component {
       .hour(17)
       .minute(0)
 
-    let totalResult
-    // if (theme.unitsOfTime) {
-    //   totalResult = <div>{day.hoursTime}</div>
-    // } else {
-    //   totalResult = <div>{day.hoursDecimal}</div>
-    // }
-
-    // console.log(this.state.weekdays[index].dayStartValue)
     return (
       <>
-        <h1>Plan your weekly hours.</h1>
-
+        <div id="day-header">
+          <div className="start-head">Start Time</div>
+          <div className="break-head">Break</div>
+          <div className="finish-head">Finish Time</div>
+        </div>
         {this.state.weekdays.map((day, index) => (
           <div key={index} id={index} className={`${day.dayName} day`}>
             <div className="column day-name">
@@ -337,32 +301,27 @@ export default class WeekTable extends Component {
                 allowEmpty={false}
               />
             </div>
-            <div className="column day-total">
-              {day.hoursInMinutes && theme.unitsOfTime == true ? (
-                <div>{day.hoursTime}</div>
-              ) : (
-                <div></div>
-              )}
-              {/* {totalResult} */}
-            </div>
-            <a
-              className="reset-button"
-              onClick={() => {
-                this.clearDay(index)
-              }}
-            >
-              <img src={reset} alt="Reset" className="reset" />
-            </a>
+
+            {day.dayStart && day.dayEnd ? (
+              <button
+                className="reset-button"
+                onClick={() => {
+                  this.clearDay(index)
+                }}
+              >
+                <img src={reset} alt="Reset" className="reset" />
+              </button>
+            ) : (
+              <></>
+            )}
+            <DayTotal
+              hoursTime={day.hoursTime}
+              decimalsTime={day.hoursDecimal}
+            />
           </div>
         ))}
 
-        <div id="weekly-total">
-          {theme.weekTotalHoursTime ? (
-            <h2>Your total weekly hours are {theme.weekTotalHoursTime}.</h2>
-          ) : (
-            <h2></h2>
-          )}
-        </div>
+        <WeeklyTotal />
       </>
     )
   }

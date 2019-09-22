@@ -33,7 +33,7 @@ class ThemeProvider extends Component {
     const { children } = this.props
     const { weekTotalHoursTime, weekTotalHoursDecimal, unitsOfTime } = this.state
 
-    console.log(this.state)
+    // console.log(this.state)
 
     return (
       <ThemeContext.Provider
