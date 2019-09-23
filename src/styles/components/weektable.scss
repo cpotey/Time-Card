@@ -1,6 +1,83 @@
-#day-header {
-  display: flex;
-  margin-left: 145px;
+#main-content {
+  .container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 145px 1fr 1fr 1fr 120px;
+    grid-template-areas:
+      'header header header header header'
+      'day1 day1 day1 day1 day1'
+      'day2 day2 day2 day2 day2'
+      'day3 day3 day3 day3 day3'
+      'day4 day4 day4 day4 day4'
+      'day5 day5 day5 day5 day5'
+      'day6 day6 day6 day6 day6'
+      'day7 day7 day7 day7 day7'
+      'total total total total total';
 
-  
+    #day-header {
+      grid-area: header;
+
+      display: grid;
+      grid-template-columns: 145px 1fr 1fr 1fr 120px;
+      grid-template-areas: '. start break end .';
+      grid-gap: 10px;
+      @media screen and (max-width:940px) {
+        grid-template-columns: 135px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width:678px) {
+        grid-template-columns: 115px 1fr 1fr 1fr 1fr;
+      }
+
+      .start-head {
+        grid-area: start;
+        opacity: 0.8;
+      }
+      .break-head {
+        grid-area: break;
+        opacity: 0.8;
+      }
+      .finish-head {
+        grid-area: end;
+        opacity: 0.8;
+      }
+    }
+    .day {
+      display: grid;
+      grid-template-areas: '';
+      grid-template-columns: 145px 1fr 1fr 1fr 120px;
+      grid-template-areas: 'name start break end total';
+      grid-gap: 10px;
+      @media screen and (max-width:940px) {
+        grid-template-columns: 135px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width:678px) {
+        grid-template-columns: 115px 1fr 1fr 1fr 1fr;
+      }
+
+      &.Monday {
+        grid-area: day1;
+      }
+      &.Tuesday {
+        grid-area: day2;
+      }
+      &.Wednesday {
+        grid-area: day3;
+      }
+      &.Thursday {
+        grid-area: day4;
+      }
+      &.Friday {
+        grid-area: day5;
+      }
+      &.Saturday {
+        grid-area: day6;
+      }
+      &.Sunday {
+        grid-area: day7;
+      }
+    }
+    #weekly-total {
+      grid-area: total;
+    }
+  }
 }
