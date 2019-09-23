@@ -7,7 +7,7 @@ export default class Footer extends Component {
         <div>
           <p>
             <a
-              href="https://ko-fi.com/"
+              href="https://connorpote.co.uk/projects"
               target="_blank"
               rel="noopener noreferrer"
             >
