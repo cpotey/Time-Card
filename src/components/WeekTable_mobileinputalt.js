@@ -125,6 +125,8 @@ export default class WeekTable extends Component {
       weekdays[index][name] = twentyFourHoursFormat // set the value for either DayStart/DayBreak/DayEnd
       this.setState({ weekdays })
 
+      console.log(weekdays[index])
+
       // if dayStart & dayEnd exists, or if dayStart, dayEnd & dayBreak exists
       if (
         (weekdays[index].dayStart !== '' && weekdays[index].dayEnd !== '') ||
@@ -152,6 +154,8 @@ export default class WeekTable extends Component {
         weekdays[index].hoursTime = `${dayHours}h ${dayMinutes}m`
         this.setState({ weekdays })
 
+        // console.log(weekdays[index].dayStartValue)
+
         this.updateTotalHoursState()
       }
     } else {
@@ -159,6 +163,57 @@ export default class WeekTable extends Component {
       weekdays[index][name] = twentyFourHoursFormat // set the value for either DayStart/DayBreak/DayEnd
       this.setState({ weekdays })
       this.updateTotalHoursState()
+    }
+  }
+
+  handleMobileInputs = (event, name, index, dayValue) => {
+    
+    let colonValue = event.target.value
+    let editedValue = colonValue.replace(/:/gi, '')
+    let weekdays = [...this.state.weekdays] // create the copy of state array
+
+    if (colonValue !== null) {
+      weekdays[index][name] = editedValue
+      this.setState({ weekdays })
+
+      console.log(weekdays[index])
+
+      // weekdays[index][name] = twentyFourHoursFormat // set the value for either DayStart/DayBreak/DayEnd
+      // this.setState({ weekdays })
+
+      // if dayStart & dayEnd exists, or if dayStart, dayEnd & dayBreak exists
+      if (
+        (weekdays[index].dayStart !== '' && weekdays[index].dayEnd !== '') ||
+        (weekdays[index].dayStart !== '' &&
+          weekdays[index].dayEnd !== '' &&
+          weekdays[index].dayBreak !== '')
+      ) {
+        //  do the calculateTotalDayHours function
+        let totalDayHours = this.calculateMobileTotalDayHours(
+          weekdays[index].dayStart,
+          weekdays[index].dayEnd,
+          weekdays[index].dayBreak
+        )
+
+        const minutesIntoHours = "moment"
+        const dayHours = "moment.duration(totalDayHours, 'minutes').hours()"
+        const dayMinutes = "moment.duration(totalDayHours, 'minutes').minutes()"
+
+        // and add the day's total hours to the state
+        weekdays[index].hoursInMinutes = totalDayHours //new value
+        weekdays[index].hoursDecimal = minutesIntoHours
+        weekdays[index].hoursTime = `${dayHours}h ${dayMinutes}m`
+        this.setState({ weekdays })
+
+        // console.log(weekdays[index].dayStartValue)
+
+        this.updateTotalHoursState()
+      }
+    } else {
+      // this.clearDay(index)
+      // weekdays[index][name] = twentyFourHoursFormat // set the value for either DayStart/DayBreak/DayEnd
+      // this.setState({ weekdays })
+      // this.updateTotalHoursState()
     }
   }
 
@@ -186,6 +241,25 @@ export default class WeekTable extends Component {
       const dayEndInMinutes = moment
         .duration(dayEnd.format('HH:mm'))
         .asMinutes()
+
+      let totalDayHours = dayEndInMinutes - dayStartInMinutes
+      return totalDayHours
+    }
+  }
+
+  calculateMobileTotalDayHours = (dayStart, dayEnd, dayBreak) => {
+    if (dayBreak) {
+      const dayStartInMinutes = dayStart
+      const dayBreakInMinutes = dayBreak
+      const dayEndInMinutes = dayEnd
+
+      let totalDayHours =
+        dayEndInMinutes - dayStartInMinutes - dayBreakInMinutes
+      return totalDayHours
+    } else {
+      // get the dayStart and End, convert into minutes. Subtract the end mins from the start.
+      const dayStartInMinutes = dayStart
+      const dayEndInMinutes = dayEnd
 
       let totalDayHours = dayEndInMinutes - dayStartInMinutes
       return totalDayHours
@@ -260,13 +334,26 @@ export default class WeekTable extends Component {
               <h3 className="long">{day.dayName}</h3>
               <h3 className="short">{day.shortName}</h3>
               <DayTotal
-              hoursTime={day.hoursTime}
-              decimalsTime={day.hoursDecimal}
-            />
+                hoursTime={day.hoursTime}
+                decimalsTime={day.hoursDecimal}
+              />
             </div>
             <div className="column day-start">
               <h4>Start Time</h4>
-              <TimePicker
+              <input
+                className={`dayStart-${index} mobile-input`}
+                type="time"
+                value={this.state.weekdays[index].dayStartValue}
+                onChange={(value, e) =>
+                  this.handleMobileInputs(
+                    value,
+                    'dayStart',
+                    index,
+                    'dayStartValue'
+                  )
+                }
+              ></input>
+              {/* <TimePicker
                 className={`daystart-${index}`}
                 name="dayStart"
                 showSecond={false}
@@ -278,10 +365,10 @@ export default class WeekTable extends Component {
                 placeholder={'9:00 am'}
                 use12Hours
                 allowEmpty={false}
-              />
+              /> */}
             </div>
             <div className="column day-break">
-            <h4>Break</h4>
+              <h4>Break</h4>
               <TimePicker
                 name="dayBreak"
                 showSecond={false}
@@ -295,8 +382,21 @@ export default class WeekTable extends Component {
               />
             </div>
             <div className="column day-end">
-            <h4>Finish Time</h4>
-              <TimePicker
+              <h4>Finish Time</h4>
+              <input
+                className={`dayEnd-${index} mobile-input`}
+                type="time"
+                value={this.state.weekdays[index].dayEndValue}
+                onChange={(value, e) =>
+                  this.handleMobileInputs(
+                    value,
+                    'dayEnd',
+                    index,
+                    'dayEndValue'
+                  )
+                }
+              ></input>
+              {/* <TimePicker
                 name="dayEnd"
                 showSecond={false}
                 value={this.state.weekdays[index].dayEndValue}
@@ -307,7 +407,7 @@ export default class WeekTable extends Component {
                 placeholder={'5:00 pm'}
                 use12Hours
                 allowEmpty={false}
-              />
+              /> */}
             </div>
 
             {day.dayStart && day.dayEnd ? (
@@ -329,7 +429,6 @@ export default class WeekTable extends Component {
           </div>
         ))}
 
-             
         <div id="weekly-target"></div>
         <WeeklyTotal />
       </>
