@@ -3,6 +3,10 @@ footer.footer {
     display: flex;
     margin-top:3rem;
     justify-content:flex-end;
+
+    @media screen and (max-width:505px) {
+      justify-content: center;
+    }
   }
   a {
     font-weight: 400;
