@@ -8,6 +8,10 @@ export default class WeeklyTotal extends Component {
     visible: false,
   }
 
+  isBottom(el) {
+    return el.getBoundingClientRect().bottom <= window.innerHeight
+  }
+
   componentDidMount() {
     window.addEventListener('scroll', this.onWindowScroll)
   }
@@ -17,27 +21,17 @@ export default class WeeklyTotal extends Component {
   }
 
   onWindowScroll = () => {
-    let element = document.getElementById('weekly-target')
-    let wrapper = document.getElementById('main-content')
-
-    // assuming you're using https://babeljs.io/docs/plugins/transform-class-properties/
-    console.log('Debounced scroll event')
-    wrapper.style.backgroundColor = this.checkVisible(element)
-      ? this.setState({
-          visible: true,
-        })
-      : this.setState({
+    const wrappedElement = document.getElementById('weekly-target')
+    if (this.isBottom(wrappedElement)) {
+      this.setState({
+        visible: true,
+      })
+      document.removeEventListener('scroll', this.trackScrolling)
+    } else {
+      this.setState({
         visible: false,
       })
-  }
-
-  checkVisible = elm => {
-    var rect = elm.getBoundingClientRect()
-    var viewHeight = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight
-    )
-    return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
+    }
   }
 
   render() {

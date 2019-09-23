@@ -266,6 +266,7 @@ export default class WeekTable extends Component {
             </div>
             <div className="column day-start">
               <h4>Start Time</h4>
+              <input type="time"></input>
               <TimePicker
                 className={`daystart-${index}`}
                 name="dayStart"
@@ -330,8 +331,8 @@ export default class WeekTable extends Component {
         ))}
 
              
-        <WeeklyTotal />
         <div id="weekly-target"></div>
+        <WeeklyTotal />
       </>
     )
   }
