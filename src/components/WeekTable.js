@@ -60,7 +60,7 @@ export default class WeekTable extends Component {
       },
       {
         dayName: 'Thursday',
-        shortName: 'Thurs',
+        shortName: 'Thur',
         hoursDecimal: null,
         hoursTime: null,
         hoursInMinutes: null,
@@ -215,7 +215,7 @@ export default class WeekTable extends Component {
     this.context.updateTotalInDecimal(roundedDecimalHours)
     this.context.updateTotalInTime(reduceTotalTime)
 
-    console.log(this.context)
+    // console.log(this.context)
   }
 
   clearDay = index => {
@@ -257,9 +257,15 @@ export default class WeekTable extends Component {
         {this.state.weekdays.map((day, index) => (
           <div key={index} id={index} className={`${day.dayName} day`}>
             <div className="column day-name">
-              <h3>{day.dayName}</h3>
+              <h3 className="long">{day.dayName}</h3>
+              <h3 className="short">{day.shortName}</h3>
+              <DayTotal
+              hoursTime={day.hoursTime}
+              decimalsTime={day.hoursDecimal}
+            />
             </div>
             <div className="column day-start">
+              <h4>Start Time</h4>
               <TimePicker
                 className={`daystart-${index}`}
                 name="dayStart"
@@ -275,6 +281,7 @@ export default class WeekTable extends Component {
               />
             </div>
             <div className="column day-break">
+            <h4>Break</h4>
               <TimePicker
                 name="dayBreak"
                 showSecond={false}
@@ -288,6 +295,7 @@ export default class WeekTable extends Component {
               />
             </div>
             <div className="column day-end">
+            <h4>Finish Time</h4>
               <TimePicker
                 name="dayEnd"
                 showSecond={false}
@@ -321,7 +329,9 @@ export default class WeekTable extends Component {
           </div>
         ))}
 
+             
         <WeeklyTotal />
+        <div id="weekly-target"></div>
       </>
     )
   }

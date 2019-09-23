@@ -14,6 +14,11 @@
       'day7 day7 day7 day7 day7'
       'total total total total total';
 
+    @media screen and (max-width: 505px) {
+      display: flex;
+      flex-direction: column;
+    }
+
     #day-header {
       grid-area: header;
 
@@ -21,11 +26,17 @@
       grid-template-columns: 145px 1fr 1fr 1fr 120px;
       grid-template-areas: '. start break end .';
       grid-gap: 10px;
-      @media screen and (max-width:940px) {
+      @media screen and (max-width: 940px) {
         grid-template-columns: 135px 1fr 1fr 1fr 1fr;
       }
-      @media screen and (max-width:678px) {
+      @media screen and (max-width: 678px) {
         grid-template-columns: 115px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width: 639px) {
+        grid-template-columns: 60px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width: 505px) {
+        display: none;
       }
 
       .start-head {
@@ -47,11 +58,21 @@
       grid-template-columns: 145px 1fr 1fr 1fr 120px;
       grid-template-areas: 'name start break end total';
       grid-gap: 10px;
-      @media screen and (max-width:940px) {
+      @media screen and (max-width: 940px) {
         grid-template-columns: 135px 1fr 1fr 1fr 1fr;
       }
-      @media screen and (max-width:678px) {
+      @media screen and (max-width: 678px) {
         grid-template-columns: 115px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width: 639px) {
+        grid-template-columns: 60px 1fr 1fr 1fr 1fr;
+      }
+      @media screen and (max-width: 505px) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border-bottom: 1px solid #ffffff24;
+        padding-bottom: 1.75rem;
       }
 
       &.Monday {
@@ -75,9 +96,125 @@
       &.Sunday {
         grid-area: day7;
       }
+
+      @media screen and (min-width: 506px) {
+        .day-start h4,
+        .day-break h4,
+        .day-end h4,
+        .day-name .day-total {
+          display: none;
+        }
+      }
+      @media screen and (max-width: 505px) {
+        input {
+          max-width: 120px;
+        }
+        .day-start h4,
+        .day-break h4,
+        .day-end h4 {
+          // opacity: 0.8;
+          // font-size: 15px;
+          opacity: 0.85;
+          font-size: 17px;
+          font-weight: normal;
+          margin: 0;
+          margin-right: 30px;
+          min-width: 80px;
+        }
+        .day-start,
+        .day-break,
+        .day-end {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          // justify-content: space-around;
+          justify-content: space-between;
+        }
+        .day-total {
+          display: none;
+        }
+        .day-name {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          // width: 100%;
+          width: 85%;
+          // justify-content: flex-start;
+          justify-content: space-between;
+
+          h3 {
+            // min-width: 160px;
+            font-size: 22px;
+          }
+
+          .day-total {
+            display: block;
+
+            p {
+              font-size: 22px;
+            }
+          }
+        }
+        .reset-button {
+          // display: none;
+          background-color: #ffffff30;
+          border-radius: 100%;
+          padding: 4px;
+          height: 27px;
+
+          img {
+            max-width: 18px;
+          }
+        }
+      }
     }
     #weekly-total {
       grid-area: total;
+      // transition:.3s ease;
+
+      &.not-visible {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+
+        &:before {
+          content: '';
+          position: fixed;
+          left: -10%;
+          right: -10%;
+          z-index: -1;
+          display: block;
+          // background-color: #000000b0;
+          // background: #000000bf;
+          // width: 200%;
+          // height: 200%;
+          // -moz-filter: blur(5px);
+          // -o-filter: blur(5px);
+          // -ms-filter: blur(5px);
+          // filter: blur(10px);
+
+          // alt
+          background: #4568dc;
+          background: -webkit-linear-gradient(to left, #4568dc, #b06ab3);
+          background: linear-gradient(to left, #4568dc, #b06ab3);
+          width: 200%;
+          height: 200%;
+          // -moz-filter: blur(5px);
+          // -o-filter: blur(5px);
+          // -ms-filter: blur(5px);
+          // filter: blur(10px);
+          border-top: 1px solid #ffffff1a;
+        }
+
+        h2 {
+          line-height: 1.4;
+
+          font-size: 22px;
+          padding: 0 2rem;
+        }
+      }
     }
   }
 }

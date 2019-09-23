@@ -21,8 +21,8 @@ export default class Navigation extends Component {
               <button
                 className="decimal-switcher"
                 onClick={theme.toggleUnits}
-                aria-label="Switch between Decimal and Time"
-                title="Switch between Decimal and Time"
+                aria-label="Switch between Decimal and Hours"
+                title="Switch between Decimal and Hours"
               >
                 {theme.unitsOfTime ? (
                   <>
